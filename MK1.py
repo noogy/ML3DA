@@ -5,6 +5,28 @@ import unittest
 import turtle
 import time
 from operator import attrgetter
+
+# I think for viewing purposes to have the constants be up at the top
+# so people that are just reading it( <<----- me) can understand wtf 
+# you're saying
+
+
+#-----CONSTANTS-------
+#instatiate 2 points and a vector between them as input
+#starting point for the turtle
+point1=Point(4,2)
+#Point that the neural network is trying to get too.
+point2=Point(100,127)
+
+inputs=point1.vector(point2)
+structure=[15,20,2]
+genSize=100
+maxGens=100
+culledGenSize=5
+done=False
+j=0
+maxDistance=2
+
 class Neuron:
 	def __init__(self,inputs):
 		#make the weights
@@ -79,7 +101,9 @@ class Point:
 		v=[]
 		v.append(math.sqrt(((a.x-self.x)**2)+((a.y-self.y)**2)))
 		v.append(math.atan2(a.x-self.x,a.y-self.y))
-		return v		
+		return v	
+	
+	
 #creates an array of NeuralNets
 def generate(numInd,netStruct):
 	global inputs
@@ -87,6 +111,7 @@ def generate(numInd,netStruct):
 	for i in range(numInd):
 		generation.append(NeuralNet(inputs,netStruct))
 	return generation
+#
 def cullTheWeak(gen,surviorNum):
 	culledGen=sorted(gen,key=attrgetter('fitness'))
 	culledGen=culledGen[:surviorNum]
@@ -102,6 +127,7 @@ def reproduce(neuralNet1,neuralNet2):
 	piece4=neuralNet2.weights[randVal:len(neuralNet1.weights)]
 	return [piece1+piece4,piece2+piece3]
 
+#resets the turtle @ point1
 def reset():
 	global turnt
 	turnt.reset()
@@ -114,6 +140,7 @@ def reset():
 	turnt.dot(15,"red")
 	turnt.goto(point1.x,point1.y)
 	turnt.pendown()
+	
 # def test(NeuralNet a):
 # 	global maxDistance
 # 	target=Point(math.floor(random.random()*100),math.floor(random.random()*100))
@@ -123,21 +150,6 @@ def reset():
 
 
 
-
-
-
-#-----CONSTANTS-------
-#instatiate 2 points and a vector between them as input
-point1=Point(4,2)
-point2=Point(100,127)
-inputs=point1.vector(point2)
-structure=[15,20,2]
-genSize=100
-maxGens=100
-culledGenSize=5
-done=False
-j=0
-maxDistance=2
 
 #----Setting up turtle-----
 
